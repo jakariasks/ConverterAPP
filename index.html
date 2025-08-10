@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Number System Converter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h4>ICT Learners HUB Presents</h4>
+    <h1>Number System Converter</h1>
+
+    <label for="inputNumber">Enter Number:</label>
+    <input type="text" id="inputNumber" placeholder="e.g. 23.45 or 1A.F" />
+
+    <div class="row">
+      <div>
+        <label for="sourceBase">Source Base:</label>
+        <select id="sourceBase">
+        <option value="10" selected>Decimal (10)</option>
+          <option value="2">Binary (2)</option>
+          <option value="8">Octal (8)</option>
+          <option value="16">Hexadecimal (16)</option>
+        </select>
+      </div>
+      <div>
+        <label for="targetBase">Target Base:</label>
+        <select id="targetBase">
+          <option value="10">Decimal (10)</option>
+          <option value="2" selected>Binary (2)</option>
+          <option value="8">Octal (8)</option>
+          <option value="16" >Hexadecimal (16)</option>
+        </select>
+      </div>
+    </div>
+
+    
+    <button id="convertBtn">Convert</button>
+
+    <div id="result"></div>
+    <div id="bottom">
+        <h5>developed by Jakaria Hasan (01306060688)</h5>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
