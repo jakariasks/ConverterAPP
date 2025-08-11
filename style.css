@@ -1,36 +1,54 @@
 body {
   font-family: Arial, sans-serif;
   background: #161616;
+  margin: 0;
+  padding: 0;
+}
+
+/* Menu Bar */
+.menu-bar {
+  background: #007bff;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  margin: 0;
-  padding: 20px;
+  padding-bottom: 5px;
   
 }
 
+.menu-btn {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.menu-btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-radius: 5px;
+}
+
+/* Container */
 .container {
   background: rgb(151, 155, 214);
-  padding: 1px 30px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(8, 7, 7, 0.5);
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
+  margin: 20px auto;
   box-sizing: border-box;
 }
 
-
-h4{
-    text-align: center;
-    color: rgb(78, 75, 75);
+h4 {
+  text-align: center;
+  color: rgb(78, 75, 75);
 }
 h1 {
   margin-bottom: 10px;
   text-align: center;
-  color: rgb(21, 6, 233);
+  color: rgb(25, 0, 247);
   font-weight: bold;
-  box-shadow: 3px 3px rgba(15, 10, 10, 0.4);
 }
 
 label {
@@ -40,7 +58,7 @@ label {
   font-weight: bold;
 }
 
-input[type="text"], input[type="number"], select {
+input[type="text"], select {
   width: 100%;
   padding: 8px 10px;
   font-size: 16px;
@@ -59,7 +77,6 @@ input[type="text"], input[type="number"], select {
 .row > div {
   flex: 1 1 48%;
   min-width: 120px;
-  margin-top: 10px;
 }
 
 button {
@@ -72,14 +89,13 @@ button {
   border-radius: 6px;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-#result {
+#result, #calcResult {
   margin-top: 20px;
   font-size: 20px;
   min-height: 24px;
@@ -87,24 +103,11 @@ button:hover {
   color: #000000;
   font-weight: 900;
   text-align: center;
-  
 }
 
-#bottom{
-    font-weight: 100;
-    font-style: italic;
-    text-align: center;
-}
-
-/* Responsive adjustments */
-
-@media (max-width: 480px) {
-  .row {
-    flex-direction: column;
-  }
-
-  .row > div {
-    flex: 1 1 100%;
-    margin-top: 10px;
-  }
+#bottom {
+  font-weight: 100;
+  font-style: italic;
+  text-align: center;
+  margin-top: 20px;
 }

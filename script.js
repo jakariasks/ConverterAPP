@@ -1,91 +1,100 @@
 const validBases = [2, 8, 10, 16];
+const digits = "0123456789ABCDEF";
 
-const sourceBaseSelect = document.getElementById("sourceBase");
-const targetBaseSelect = document.getElementById("targetBase");
-const resultDiv = document.getElementById("result");
+// Show section by menu click
+function showSection(sectionId) {
+  document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+  document.getElementById(sectionId).style.display = "block";
+}
 
+// Converter
 document.getElementById("convertBtn").addEventListener("click", () => {
   const num = document.getElementById("inputNumber").value.trim().toUpperCase();
-  const sourceBase = parseInt(sourceBaseSelect.value);
-  const targetBase = parseInt(targetBaseSelect.value);
-  const precisionInput = 8;
-  const precision = precisionInput === "" ? 8 : Math.min(Math.max(parseInt(precisionInput), 0), 20);
+  const sourceBase = parseInt(document.getElementById("sourceBase").value);
+  const targetBase = parseInt(document.getElementById("targetBase").value);
+  const precision = 8;
+
   try {
-    if (!validBases.includes(sourceBase) || !validBases.includes(targetBase)) {
-      throw new Error("Base must be one of 2, 8, 10, or 16");
-    }
     const decimalValue = baseToDecimal(num, sourceBase);
     const converted = decimalToBase(decimalValue, targetBase, precision);
-    resultDiv.textContent = `Result: ${converted}`;
+    document.getElementById("result").textContent = `Result: ${converted}`;
   } catch (err) {
-    resultDiv.textContent = "Error: " + err.message;
+    document.getElementById("result").textContent = "Error: " + err.message;
   }
 });
 
+// Calculator
+document.getElementById("calcBtn").addEventListener("click", () => {
+  const base = parseInt(document.getElementById("calcBase").value);
+  const num1 = document.getElementById("num1").value.trim().toUpperCase();
+  const num2 = document.getElementById("num2").value.trim().toUpperCase();
+  const operation = document.getElementById("operation").value;
+  const precision = 8;
+
+  try {
+    const dec1 = baseToDecimal(num1, base);
+    const dec2 = baseToDecimal(num2, base);
+
+    let resultDecimal = operation === "add" ? dec1 + dec2 : dec1 - dec2;
+    const resultStr = decimalToBase(resultDecimal, base, precision);
+
+    document.getElementById("calcResult").textContent = `Result: ${resultStr}`;
+  } catch (err) {
+    document.getElementById("calcResult").textContent = "Error: " + err.message;
+  }
+});
+
+// Conversion functions
 function baseToDecimal(num, base) {
-  if(!validBases.includes(base)) throw new Error("Base must be one of 2, 8, 10, or 16");
-
-  const digits = "0123456789ABCDEF";
   const parts = num.split(".");
+  let intValue = 0;
 
-  // Integer part conversion
-  let intPartValue = 0;
-  const intPart = parts[0];
-  for(let i=0; i<intPart.length; i++) {
-    const digitValue = digits.indexOf(intPart[i]);
-    if(digitValue < 0 || digitValue >= base) throw new Error(`Invalid digit '${intPart[i]}' for base ${base}`);
-    intPartValue = intPartValue * base + digitValue;
+  for (let i = 0; i < parts[0].length; i++) {
+    const val = digits.indexOf(parts[0][i]);
+    if (val < 0 || val >= base) throw new Error(`Invalid digit '${parts[0][i]}'`);
+    intValue = intValue * base + val;
   }
 
-  // Fractional part conversion
-  let fracPartValue = 0;
-  if(parts.length > 1) {
-    const fracPart = parts[1];
+  let fracValue = 0;
+  if (parts.length > 1) {
     let divisor = base;
-    for(let i=0; i<fracPart.length; i++) {
-      const digitValue = digits.indexOf(fracPart[i]);
-      if(digitValue < 0 || digitValue >= base) throw new Error(`Invalid digit '${fracPart[i]}' for base ${base}`);
-      fracPartValue += digitValue / divisor;
+    for (let i = 0; i < parts[1].length; i++) {
+      const val = digits.indexOf(parts[1][i]);
+      if (val < 0 || val >= base) throw new Error(`Invalid digit '${parts[1][i]}'`);
+      fracValue += val / divisor;
       divisor *= base;
     }
   }
-
-  return intPartValue + fracPartValue;
+  return intValue + fracValue;
 }
 
 function decimalToBase(num, base, precision) {
-  if(!validBases.includes(base)) throw new Error("Base must be one of 2, 8, 10, or 16");
-
-  const digits = "0123456789ABCDEF";
+  const negative = num < 0;
+  num = Math.abs(num);
 
   const intPart = Math.floor(num);
   let fracPart = num - intPart;
 
-  // Convert integer part
-  let intString = "";
-  if(intPart === 0) {
-    intString = "0";
-  } else {
-    let n = intPart;
-    while(n > 0) {
-      intString = digits[n % base] + intString;
-      n = Math.floor(n / base);
-    }
+  let intStr = "";
+  let temp = intPart;
+  if (temp === 0) intStr = "0";
+  while (temp > 0) {
+    intStr = digits[temp % base] + intStr;
+    temp = Math.floor(temp / base);
   }
 
-  // Convert fractional part
-  let fracString = "";
-  if(fracPart > 0 && precision > 0) {
-    fracString = ".";
+  let fracStr = "";
+  if (fracPart > 0 && precision > 0) {
+    fracStr = ".";
     let count = 0;
-    while(fracPart > 0 && count < precision) {
+    while (fracPart > 0 && count < precision) {
       fracPart *= base;
       const digit = Math.floor(fracPart);
-      fracString += digits[digit];
+      fracStr += digits[digit];
       fracPart -= digit;
       count++;
     }
   }
 
-  return intString + fracString;
+  return (negative ? "-" : "") + intStr + fracStr;
 }
