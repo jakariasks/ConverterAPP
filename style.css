@@ -111,3 +111,16 @@ button:hover {
   text-align: center;
   margin-top: 20px;
 }
+/* Responsive adjustments */
+
+@media (max-width: 480px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .row > div {
+    flex: 1 1 100%;
+    margin-top: 10px;
+  }
+}
+
